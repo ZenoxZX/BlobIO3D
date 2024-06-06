@@ -17,4 +17,4 @@ MonoBehaviour:
   m_MaxBlobCount: 400
   m_BlobSpawnInterval: 1
   m_MaxObstacleCount: 60
-  m_MaxEnemyCount: 5
+  m_MaxEnemyCount: 20
