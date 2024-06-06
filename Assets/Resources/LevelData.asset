@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b40f333a0554e13aa740e789fe2159a, type: 3}
-  m_Name: LevelData 026
+  m_Name: LevelData
   m_EditorClassIdentifier: 
-  m_WorldSizeX: 10
-  m_WorldSizeZ: 10
-  m_MaxBlobCount: 50
+  m_WorldSizeX: 50
+  m_WorldSizeZ: 50
+  m_MaxBlobCount: 250
   m_BlobSpawnInterval: 1
   m_MaxEnemyCount: 5
-  m_EnemyDamage: 10

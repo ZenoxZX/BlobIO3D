@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 
 namespace BlobIO
@@ -9,9 +10,33 @@ namespace BlobIO
         [SerializeField] private Vector3 m_Offset = new Vector3(0, 0, 0);
         [SerializeField] private float m_Speed = 5f;
         [SerializeField] private MovementType m_MovementType = MovementType.SmoothDamp;
-    
+        [SerializeField] private float m_FOVLevelMultiplier = 0.5f;
+
+        private Tween m_FovTween;
+        private Camera m_Camera;
+        private float m_InitialFov;
         private Vector3 m_Velocity = Vector3.zero;
-    
+
+        private void Awake()
+        {
+            m_Camera = GetComponent<Camera>();
+            m_InitialFov = m_Camera.fieldOfView;
+        }
+
+        private void Start()
+        {
+            Player.Instance.LevelChanged += OnLevelChanged;
+        }
+
+        private void OnLevelChanged(int level)
+        {
+            float targetFov = m_InitialFov + (level - 1) * m_FOVLevelMultiplier;
+            float duration = 1f;
+
+            m_FovTween?.Kill();
+            m_FovTween = m_Camera.DOFieldOfView(targetFov, duration);
+        }
+
         private void Update()
         {
             if (m_Target == null)

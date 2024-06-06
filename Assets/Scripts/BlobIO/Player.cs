@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace BlobIO
@@ -10,10 +11,23 @@ namespace BlobIO
         [SerializeField] private SphereCollider m_Collider;
         [SerializeField] private int m_Level = 1;
 
+        private static Player s_Instance;
+        
+        private Transform m_Transform;
+        public event Action<int> LevelChanged;
+        
         private const float k_RadiusPerLevel = 0.02f;
         private const float k_StartRadius = 0.5f;
 
+        public static Player Instance => s_Instance;
+        
         #region Lifecycle
+
+        private void Awake()
+        {
+            s_Instance = this;
+            m_Transform = transform;
+        }
     
         private void Update()
         {
@@ -46,12 +60,14 @@ namespace BlobIO
             if (direction == Vector3.zero)
                 return;
 
-            transform.position += m_Speed * Time.deltaTime * direction.normalized;
+            m_Transform.position += m_Speed * Time.deltaTime * direction.normalized;
+            m_Transform.position = WorldManager.Instance.GetClampPosition(m_Transform);
         }
     
         private void SetLevel(int level)
         {
             m_Level = level;
+            LevelChanged?.Invoke(level);
             SetScale(m_Level);
         }
     

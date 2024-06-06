@@ -10,7 +10,8 @@ namespace BlobIO
     
         [SerializeField] private EnemyFactory m_EnemyFactory;
         [SerializeField] private BlobFactory m_BlobFactory;
-        [SerializeField] private List<LevelData> m_Levels;
+        
+        private LevelData m_LevelData;
     
         #endregion
 
@@ -19,13 +20,23 @@ namespace BlobIO
 
         private void Awake()
         {
-            m_Levels = LoadLevels();
+            m_LevelData = LevelData.GetInstance();
         }
-    
-        private static List<LevelData> LoadLevels()
+        
+        private void Start()
         {
-            LevelData[] datas = Resources.LoadAll<LevelData>("Levels");
-            return new List<LevelData>(datas);
+            CreateBlobs();
+        }
+
+        private void CreateBlobs()
+        {
+            int blobLevel = 1;
+            
+            for (int i = 0; i < m_LevelData.MaxBlobCount; i++)
+            {
+                Vector3 randomPosition = WorldManager.Instance.GetRandomPosition();
+                m_BlobFactory.Create(blobLevel, randomPosition);
+            }
         }
     }
 }
