@@ -8,8 +8,9 @@ namespace BlobIO
     {
         #region Factories
     
-        [SerializeField] private EnemyFactory m_EnemyFactory;
         [SerializeField] private BlobFactory m_BlobFactory;
+        [SerializeField] private ObstacleFactory m_ObstacleFactory;
+        [SerializeField] private EnemyFactory m_EnemyFactory;
         
         private LevelData m_LevelData;
     
@@ -26,6 +27,8 @@ namespace BlobIO
         private void Start()
         {
             CreateBlobs();
+            CreateObstacles();
+            CreateEnemy();
         }
 
         private void CreateBlobs()
@@ -36,6 +39,24 @@ namespace BlobIO
             {
                 Vector3 randomPosition = WorldManager.Instance.GetRandomPosition();
                 m_BlobFactory.Create(blobLevel, randomPosition);
+            }
+        }
+        
+        private void CreateObstacles()
+        {
+            for (int i = 0; i < m_LevelData.MaxObstacleCount; i++)
+            {
+                Vector3 randomPosition = WorldManager.Instance.GetRandomPosition();
+                m_ObstacleFactory.Create(randomPosition);
+            }
+        }
+        
+        public void CreateEnemy()
+        {
+            for (int i = 0; i < m_LevelData.MaxEnemyCount; i++)
+            {
+                Vector3 randomPosition = WorldManager.Instance.GetRandomPosition();
+                m_EnemyFactory.Create(randomPosition);
             }
         }
     }

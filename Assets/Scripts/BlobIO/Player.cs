@@ -5,21 +5,23 @@ namespace BlobIO
 {
     public class Player : MonoBehaviour
     {
+        private const float k_RadiusPerLevel = 0.02f;
+        private const float k_StartRadius = 0.5f;
+        private static Player s_Instance;
+        public event Action<int> LevelChanged;
+        
         [SerializeField] private GameManager m_GameManager;
         [SerializeField] private float m_Speed = 5f;
         [SerializeField] private Transform m_Pivot;
         [SerializeField] private SphereCollider m_Collider;
         [SerializeField] private int m_Level = 1;
 
-        private static Player s_Instance;
-        
+        private bool m_IsDead;
         private Transform m_Transform;
-        public event Action<int> LevelChanged;
-        
-        private const float k_RadiusPerLevel = 0.02f;
-        private const float k_StartRadius = 0.5f;
 
         public static Player Instance => s_Instance;
+        
+        public int Level => m_Level;
         
         #region Lifecycle
 
@@ -39,6 +41,9 @@ namespace BlobIO
         {
             if (other.TryGetComponent(out Blob blob))
                 Collect(blob);
+            
+            if (other.TryGetComponent(out Obstacle obstacle))
+                Die();
         }
 
         #endregion
@@ -47,16 +52,26 @@ namespace BlobIO
 
         private void Die()
         {
-            LevelFailArgs args = new LevelFailArgs();
-            args.Level = m_Level;
-            args.PlayerName = "Player";
-            args.IsGameOver = true;
-        
+            if (m_IsDead)
+                return;
+            
+            m_IsDead = true;
+            
+            LevelFailArgs args = new LevelFailArgs
+            {
+                Level = m_Level,
+                PlayerName = "Player",
+                IsGameOver = true
+            };
+
             m_GameManager.LevelFailed?.Invoke(args);
         }
     
         private void Move(Vector3 direction)
         {
+            if (m_IsDead)
+                return;
+            
             if (direction == Vector3.zero)
                 return;
 

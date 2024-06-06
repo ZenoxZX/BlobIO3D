@@ -18,7 +18,7 @@ namespace BlobIO
 
         private void Show(LevelFailArgs args)
         {
-            m_LevelText.text = $"Player Level : {args.Level}, Player Name : {args.PlayerName}, Game Over : {args.IsGameOver}";
+            m_LevelText.text = $"Player Level : {args.Level}";
             StartCoroutine(ShowCoroutine());
         }
         

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_WorldSizeX: 50
   m_WorldSizeZ: 50
-  m_MaxBlobCount: 250
+  m_MaxBlobCount: 400
   m_BlobSpawnInterval: 1
+  m_MaxObstacleCount: 60
   m_MaxEnemyCount: 5
