@@ -9,13 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b40f333a0554e13aa740e789fe2159a, type: 3}
-  m_Name: LevelData
+  m_Script: {fileID: 188390376, guid: a4865f1ab4504ed8a368670db22f409c, type: 3}
+  m_Name: ImportSettingsConfig
   m_EditorClassIdentifier: 
-  m_WorldSizeX: 50
-  m_WorldSizeZ: 50
-  m_InitialBlobCount: 350
-  m_MaxBlobCount: 700
-  m_BlobSpawnInterval: 0.8
-  m_MaxObstacleCount: 60
-  m_MaxEnemyCount: 20
+  automateBeforeBuild: 1
