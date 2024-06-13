@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace BlobIO.Game
@@ -12,8 +13,12 @@ namespace BlobIO.Game
         [SerializeField] private CanvasGroup m_CanvasGroup;
         [SerializeField] private TextMeshProUGUI m_LevelText;
         [SerializeField] private Button m_RestartButton;
-        [SerializeField] private Button m_BackButton;
-        
+
+        private void Awake()
+        {
+            m_RestartButton.onClick.AddListener(OnRestartButtonClicked);
+        }
+
         private void OnEnable()
         {
             m_GameManager.LevelFailed += Show;
@@ -21,8 +26,16 @@ namespace BlobIO.Game
 
         private void Show(LevelFailArgs args)
         {
-            m_LevelText.text = $"Player Level : {args.Level}";
+            m_LevelText.text = $"Score : {args.Level - 1}";
             StartCoroutine(ShowCoroutine());
+        }
+        
+        private void OnRestartButtonClicked()
+        {
+            m_RestartButton.interactable = false;
+            Scene activeScene = SceneManager.GetActiveScene();
+            int buildIndex = activeScene.buildIndex;
+            SceneManager.LoadScene(buildIndex);
         }
         
         private IEnumerator ShowCoroutine()

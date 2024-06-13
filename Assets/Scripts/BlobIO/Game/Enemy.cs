@@ -7,7 +7,8 @@ namespace BlobIO.Game
         [SerializeField] private Transform m_Pivot;
         [SerializeField] private SphereCollider m_Collider;
         [SerializeField] private int m_Level = 1;
-
+        [SerializeField] private ParticleSystem m_DieParticle;
+        
         private GameManager m_GameManager;
         private GameConfig m_GameConfig;
         private EnemyFactory m_Factory;
@@ -48,6 +49,9 @@ namespace BlobIO.Game
             
             if (other.TryGetComponent(out Obstacle obstacle))
                 Die();
+            
+            if (other.TryGetComponent(out Enemy enemy))
+                HitEnemy(enemy);
         }
 
         private void OnDrawGizmos()
@@ -126,13 +130,15 @@ namespace BlobIO.Game
 
         #endregion
 
-        private void Die()
+        public void Die()
         {
             if (m_IsDead)
                 return;
             
             m_IsDead = true;
-
+            m_DieParticle.transform.SetParent(null);
+            m_DieParticle.Play();
+            Destroy(m_DieParticle.gameObject, m_DieParticle.main.duration);
             m_GameManager.EnemyDied?.Invoke(this);
         }
         
@@ -145,6 +151,19 @@ namespace BlobIO.Game
         {
             m_Level = level;
             SetScale(m_Level);
+        }
+        
+        private void HitEnemy(Enemy enemy)
+        {
+            if (m_GameConfig.CanEat(m_Level, enemy.Level))
+            {
+                m_GameManager.EnemyDied?.Invoke(enemy);
+            }
+            
+            else if (m_GameConfig.CanEat(enemy.Level, m_Level))
+            {
+                Die();
+            }
         }
         
         private void IncreaseLevel(int level) => SetLevel(m_Level + level);

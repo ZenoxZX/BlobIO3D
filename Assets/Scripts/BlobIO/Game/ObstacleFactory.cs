@@ -7,7 +7,7 @@ namespace BlobIO.Game
     {
         [SerializeField] private Obstacle m_Prefab;
         [SerializeField] private Transform m_Parent;
-        [SerializeField] private List<Obstacle> m_ObstacleList = new List<Obstacle>();
+        private readonly List<Obstacle> m_ObstacleList = new List<Obstacle>();
 
         public Obstacle Create(Vector3 position = default)
         {

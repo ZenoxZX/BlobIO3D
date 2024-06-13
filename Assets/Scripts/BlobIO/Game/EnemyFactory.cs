@@ -7,8 +7,9 @@ namespace BlobIO.Game
     {
         [SerializeField] private Enemy m_Prefab;
         [SerializeField] private Transform m_Parent;
-        [SerializeField] private List<Enemy> m_EnemyList = new List<Enemy>();
         [SerializeField] private bool m_ShowGizmos = true;
+        
+        private readonly List<Enemy> m_EnemyList = new List<Enemy>();
         
         public bool ShowGizmos => m_ShowGizmos;
 

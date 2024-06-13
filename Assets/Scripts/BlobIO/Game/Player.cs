@@ -82,8 +82,11 @@ namespace BlobIO.Game
             
             if (direction == Vector3.zero)
                 return;
+            
+            if (direction.sqrMagnitude > 1)
+                direction.Normalize();
 
-            m_Transform.position += m_GameConfig.GetSpeed(m_Level, isPlayer: true) * Time.deltaTime * direction.normalized;
+            m_Transform.position += m_GameConfig.GetSpeed(m_Level, isPlayer: true) * Time.deltaTime * direction;
             m_Transform.position = WorldManager.Instance.GetClampPosition(m_Transform);
         }
     
@@ -120,7 +123,8 @@ namespace BlobIO.Game
         {
             if (m_GameConfig.CanEat(m_Level, enemy.Level))
             {
-               m_GameManager.EnemyDied?.Invoke(enemy);
+                enemy.Die();
+                m_GameManager.PlayerHitEnemy?.Invoke(enemy);
             }
             
             else if (m_GameConfig.CanEat(enemy.Level, m_Level))

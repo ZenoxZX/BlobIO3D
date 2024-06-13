@@ -7,7 +7,9 @@ namespace BlobIO.Game
     {
         [SerializeField] private Blob m_Prefab;
         [SerializeField] private Transform m_Parent;
-        [SerializeField] private List<Blob> m_BlobList = new List<Blob>();
+        [SerializeField] private Material[] m_Materials;
+        
+        private readonly List<Blob> m_BlobList = new List<Blob>();
 
         public int Count => m_BlobList.Count;
         
@@ -15,10 +17,12 @@ namespace BlobIO.Game
         {
             Blob blob = Instantiate(m_Prefab, position, Quaternion.identity, m_Parent);
             blob.SetLevel(level);
+            Material randomMaterial = GetRandomMaterial();
+            blob.SetMaterial(randomMaterial);
             m_BlobList.Add(blob);
             return blob;
         }
-        
+
         public void Destroy(Blob blob)
         {
             m_BlobList.Remove(blob);
@@ -32,5 +36,7 @@ namespace BlobIO.Game
         
             m_BlobList.Clear();
         }
+        
+        private Material GetRandomMaterial() => m_Materials[Random.Range(0, m_Materials.Length)];
     }
 }

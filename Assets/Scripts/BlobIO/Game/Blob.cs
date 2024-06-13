@@ -7,6 +7,7 @@ namespace BlobIO.Game
         [SerializeField] private Transform m_Pivot;
         [SerializeField] private SphereCollider m_Collider;
         [SerializeField] private int m_Level = 1;
+        [SerializeField] private MeshRenderer m_MeshRenderer;
 
         private const float k_RadiusPerLevel = 0.15f;
         private const float k_StartRadius = 0.15f;
@@ -24,6 +25,8 @@ namespace BlobIO.Game
             m_Level = level;
             SetScale(m_Level);
         }
+        
+        public void SetMaterial(Material material) => m_MeshRenderer.material = material;
 
         private void SetScale(int level)
         {

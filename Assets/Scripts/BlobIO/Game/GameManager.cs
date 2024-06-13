@@ -1,13 +1,16 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace BlobIO.Game
 {
     public class GameManager : MonoBehaviour
     {
         private static GameManager s_Instance;
+        [SerializeField] private int m_Seed;
         
         public Action<Enemy> EnemyDied;
+        public Action<Enemy> PlayerHitEnemy;
         public Action<Blob> BlobCollected;
         public Action LevelCompleted;
         public Action<LevelFailArgs> LevelFailed;
@@ -30,6 +33,9 @@ namespace BlobIO.Game
         
         private void Awake()
         {
+            Random.InitState(m_Seed);
+            Random.Range(0, 100);
+            
             s_Instance = this;
             m_LevelData = LevelData.GetInstance();
         }
